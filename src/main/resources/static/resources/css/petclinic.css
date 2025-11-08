@@ -431,6 +431,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
+  appearance: button;
   -webkit-appearance: button; }
   button:not(:disabled),
   [type="button"]:not(:disabled),
@@ -477,6 +478,7 @@ legend {
   height: auto; }
 
 [type="search"] {
+  appearance: textfield;
   -webkit-appearance: textfield;
   outline-offset: -2px; }
   [type="search"]::-webkit-search-cancel-button {
@@ -499,6 +501,7 @@ legend {
 
 ::file-selector-button {
   font: inherit;
+  appearance: button;
   -webkit-appearance: button; }
 
 output {
@@ -659,6 +662,63 @@ progress {
   --bs-breakpoint-lg: 992px;
   --bs-breakpoint-xl: 1200px;
   --bs-breakpoint-xxl: 1400px; }
+
+/* Custom background: pets image covering the whole page */
+html, body {
+  height: 100%;
+}
+body.site-bg {
+  /* use the static resources path used by the app */
+  background-image: url('/resources/images/pets.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; /* ensure the image covers the viewport */
+  background-attachment: fixed;
+}
+
+/* Optional overlay to improve text contrast over the background image */
+body.site-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.35); /* light overlay - adjust as needed */
+  pointer-events: none;
+}
+
+/* Utility: add this class to the root layout element (e.g. <body>) to enable the background */
+.use-pets-bg {
+  min-height: 100vh;
+}
+
+/* Responsive adjustments for background image */
+@media (max-width: 768px) {
+  /* On smaller screens avoid fixed attachment (improves performance on mobile) */
+  body.site-bg {
+    background-attachment: scroll;
+    /* focus the image slightly higher to better show subjects on narrow screens */
+    background-position: center top;
+    /* allow image to scale but prefer contain to avoid important areas being cropped */
+    background-size: cover;
+  }
+
+  /* reduce overlay on smaller screens so content remains readable without hiding the image */
+  body.site-bg::before {
+    background: rgba(255,255,255,0.25);
+  }
+}
+
+@media (max-width: 480px) {
+  body.site-bg {
+    /* ensure the key area of the image stays visible on very small devices */
+    background-position: center 20%;
+    background-size: cover;
+  }
+
+  /* on very small screens remove overlay or make it very light */
+  body.site-bg::before {
+    background: rgba(255,255,255,0.18);
+  }
+}
 
 .row {
   --bs-gutter-x: 1.5rem;
@@ -9390,6 +9450,7 @@ table td.action-column {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  transform-origin: 49% 50%;
   -webkit-transform-origin: 49% 50%;
   -webkit-animation-name: spinner;
   -webkit-animation-duration: 2s;
@@ -9464,6 +9525,7 @@ strong {
   height: 46px;
   background: url("../images/spring-logo-dataflow.png") -1px -48px no-repeat;
   opacity: 0;
+  transition: opacity 0.12s ease-in-out;
   -moz-transition: opacity 0.12s ease-in-out;
   -webkit-transition: opacity 0.12s ease-in-out;
   -o-transition: opacity 0.12s ease-in-out; }
